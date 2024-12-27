@@ -1,5 +1,7 @@
-
-select * from user_order order by cost desc limit 1,10;
+select *
+from user_order
+order by cost desc
+limit 1,10;
 
 describe user_order;
 
@@ -7,10 +9,9 @@ CREATE TABLE IF NOT EXISTS user_order
 (
     uid  INT COMMENT '用户 ID',
     cost DECIMAL(10, 2) DEFAULT '0.0',
-    dt   datetime  DEFAULT current_timestamp
+    dt   datetime       DEFAULT current_timestamp
 )
-    ENGINE=olap
-    DISTRIBUTED BY HASH(uid) BUCKETS 8
+    ENGINE = olap DISTRIBUTED BY HASH(uid) BUCKETS 8
 PROPERTIES (
     "replication_num" = "1"
 );
