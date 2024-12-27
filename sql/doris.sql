@@ -1,3 +1,9 @@
+select count(*) from user_order;
+
+delete
+from user_order
+where dt >= '2024-12-27 16:09:37';
+
 select *
 from user_order
 order by cost desc
@@ -39,5 +45,3 @@ use learn;
 show databases;
 
 create database learn;
-
-
