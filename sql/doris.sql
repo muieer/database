@@ -1,5 +1,20 @@
 
-# union all 查询
+-- with 语句，查询语句职责单一，提高 SQL 可阅读、可修改、可扩展能力
+with sales_dept as (select dept_id, dept_name
+                    from dept_info
+                    where dept_name = '销售部'
+                    union all
+                    select child.dept_id, child.dept_name
+                    from dept_info child
+                             inner join dept_info parent
+                                        on child.parent_dept = parent.dept_id and parent.dept_name = '销售部')
+
+select s.dept_name, e.*
+from emp_info e
+         join sales_dept s on e.dept_id = s.dept_id
+order by e.emp_id;
+
+--  union all 查询
 select *
 from (
     select dept_id   dept_level_1_id,
