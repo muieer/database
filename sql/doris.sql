@@ -51,7 +51,7 @@ where level3.dept_level = 3;
 select parent.dept_id   dept_level_1_id,
        parent.dept_name dept_level_1_name,
        child.dept_id    dept_level_2_id,
-       child.dept_name  dept_level_2_name，,
+       child.dept_name  dept_level_2_name,
        null             dept_level_3_id,
        null             dept_level_3_name
 from dept_info child
