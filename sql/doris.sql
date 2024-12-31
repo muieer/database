@@ -1,3 +1,14 @@
+-- exist 语句等价于下面的 join 语句
+select *
+from emp_info
+where exists(select 1
+             from dept_info
+             where dept_name REGEXP '销售'
+               and emp_info.dept_id = dept_info.dept_id);
+
+select emp_info.*
+from emp_info
+         join dept_info on emp_info.dept_id = dept_info.dept_id and dept_info.dept_name REGEXP '销售';
 
 -- with 语句，查询语句职责单一，提高 SQL 可阅读、可修改、可扩展能力
 with sales_dept as (select dept_id, dept_name
@@ -16,39 +27,37 @@ order by e.emp_id;
 
 --  union all 查询
 select *
-from (
-    select dept_id   dept_level_1_id,
-           dept_name dept_level_1_name,
-           null      dept_level_2_id,
-           null      dept_level_2_name,
-           null      dept_level_3_id,
-           null      dept_level_3_name
-    from dept_info
-    where dept_level = 1
-    union all
-    -- 将一级部门和二级部门合并
-    select parent.dept_id   dept_level_1_id,
-           parent.dept_name dept_level_1_name,
-           child.dept_id    dept_level_2_id,
-           child.dept_name  dept_level_2_name,
-           null             dept_level_3_id,
-           null             dept_level_3_name
-    from dept_info child
-             left join dept_info parent on child.parent_dept = parent.dept_id
-    where child.dept_level = 2
-    union all
-    -- 将一级、二级、三级部门合并
-    select level1.dept_id   dept_level_1_id,
-           level1.dept_name dept_level_1_name,
-           level2.dept_id   dept_level_2_id,
-           level2.dept_name dept_level_2_name,
-           level3.dept_id   dept_level_3_id,
-           level3.dept_name dept_level_3_name
-    from dept_info level3
-             left join dept_info level2 on level3.parent_dept = level2.dept_id
-             left join dept_info level1 on level2.parent_dept = level1.dept_id
-    where level3.dept_level = 3
-) t
+from (select dept_id   dept_level_1_id,
+             dept_name dept_level_1_name,
+             null      dept_level_2_id,
+             null      dept_level_2_name,
+             null      dept_level_3_id,
+             null      dept_level_3_name
+      from dept_info
+      where dept_level = 1
+      union all
+      -- 将一级部门和二级部门合并
+      select parent.dept_id   dept_level_1_id,
+             parent.dept_name dept_level_1_name,
+             child.dept_id    dept_level_2_id,
+             child.dept_name  dept_level_2_name,
+             null             dept_level_3_id,
+             null             dept_level_3_name
+      from dept_info child
+               left join dept_info parent on child.parent_dept = parent.dept_id
+      where child.dept_level = 2
+      union all
+      -- 将一级、二级、三级部门合并
+      select level1.dept_id   dept_level_1_id,
+             level1.dept_name dept_level_1_name,
+             level2.dept_id   dept_level_2_id,
+             level2.dept_name dept_level_2_name,
+             level3.dept_id   dept_level_3_id,
+             level3.dept_name dept_level_3_name
+      from dept_info level3
+               left join dept_info level2 on level3.parent_dept = level2.dept_id
+               left join dept_info level1 on level2.parent_dept = level1.dept_id
+      where level3.dept_level = 3) t
 order by dept_level_1_id, dept_level_2_id, dept_level_3_id;
 
 
