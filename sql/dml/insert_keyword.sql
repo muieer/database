@@ -1,3 +1,5 @@
+insert into emp_info values (10, 'trump', 35, null, null);
+
 insert into emp_info
 values (1, '张三', 25, 1000, 10000.00),
        (2, '李四', 30, 1100, 15000.00),
