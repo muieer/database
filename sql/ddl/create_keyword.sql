@@ -1,5 +1,17 @@
-
 show tables;
+
+CREATE TABLE page_visit
+(
+    page_id    INT  NOT NULL COMMENT ' 页面 id',
+    visit_date date NOT NULL COMMENT ' 访问日期 ',
+    visit_users BITMAP BITMAP_UNION NOT NULL COMMENT ' 访问用户 id',
+    visit_cnt  bigint sum COMMENT ' 访问次数 '
+) ENGINE = OLAP AGGREGATE KEY (page_id, visit_date)
+DISTRIBUTED BY HASH (page_id) BUCKETS 1
+PROPERTIES (
+"replication_num" = "1",
+"storage_format" = "DEFAULT"
+);
 
 CREATE TABLE IF NOT EXISTS dept_info
 (

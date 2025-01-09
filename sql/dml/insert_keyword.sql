@@ -1,4 +1,12 @@
-insert into emp_info values (10, 'trump', 35, null, null);
+INSERT INTO page_visit
+VALUES (1, '2020-06-23', to_bitmap(13), 3),
+       (1, '2020-06-23', to_bitmap(23), 7),
+       (1, '2020-06-23', to_bitmap(33), 5),
+       (1, '2020-06-23', to_bitmap(13), 2),
+       (2, '2020-06-23', to_bitmap(23), 6);
+
+insert into emp_info
+values (10, 'trump', 35, null, null);
 
 insert into emp_info
 values (1, '张三', 25, 1000, 10000.00),
